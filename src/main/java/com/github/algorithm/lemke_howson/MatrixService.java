@@ -9,11 +9,11 @@ import com.github.model.Tuple;
  */
 public interface MatrixService {
 
-    Double[][] getDefaultMatrix(Application application);
+    String[][] getDefaultMatrix(Application application);
 
-    Double[][] mergeMatrix(Double[][] firstMatrix, Double[][] secondMatrix);
+    String[][] mergeMatrix(Application application, String[][] firstMatrix, String[][] secondMatrix);
 
-    void calculateMatrix(Double min, Double[][] matrix, Integer line, Integer column);
+    void calculateMatrix(Application application, String min, String[][] matrix, Integer line, Integer column);
 
-    Tuple<Integer, Integer> getIndexes(Integer line, Integer column, Double[][] matrix);
+    Tuple<Integer, Integer> getIndexes(Application application, Integer line, Integer column, String[][] matrix);
 }

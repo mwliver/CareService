@@ -1,5 +1,6 @@
 package com.github.algorithm.lemke_howson;
 
+import com.github.model.Application;
 import com.github.model.Equilibrium;
 
 /**
@@ -8,6 +9,6 @@ import com.github.model.Equilibrium;
  */
 public interface LemkeHowson {
 
-    Equilibrium lemkeHowson(Double[][] firstMatrix, Double[][] secondMatrix);
+    Equilibrium lemkeHowson(Application application, String[][] firstMatrix, String[][] secondMatrix);
 
 }

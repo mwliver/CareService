@@ -1,5 +1,6 @@
 package com.github.algorithm.lemke_howson;
 
+import com.github.model.Application;
 import com.github.model.Equilibrium;
 import com.github.model.Tuple;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +20,9 @@ public class DefaultLemkeHowson implements LemkeHowson {
     EquilibriumService equilibriumService;
 
     @Override
-    public Equilibrium lemkeHowson(Double[][] firstMatrix, Double[][] secondMatrix) {
+    public Equilibrium lemkeHowson(Application application, String[][] firstMatrix, String[][] secondMatrix) {
 
-        Double[][] matrix = matrixService.mergeMatrix(firstMatrix, secondMatrix);
+        String[][] matrix = matrixService.mergeMatrix(application, firstMatrix, secondMatrix);
 
         Integer firstColumn = 0;
         Integer column = firstColumn;
@@ -30,27 +31,39 @@ public class DefaultLemkeHowson implements LemkeHowson {
 
             Integer nextColumn = column + 1;
 
-            Double min = null;
+            String min = null;
             Integer line = null;
 
-            for (int i = 0; i < 4; i++) {
-                min = matrix[i][column];
-                line = i;
+//            for (int i = 1; i < application.getLines(); i++) {
+//                min = matrix[i][column];
+//                line = i;
+//
+//                if (MatrixUtil.valueOf(matrix[i][column]) < 0 && MatrixUtil.valueOf(matrix[i][nextColumn]) / MatrixUtil.valueOf("-" + matrix[i][column]) < MatrixUtil.valueOf(min)) {
+//                    min = matrix[i][column];
+//                    line = i;
+//                }
+//            }
 
-                if (matrix[i][column] < 0 && matrix[i][nextColumn]/-(matrix[i][column]) < min) {
+            for (int i = 1; i < application.getLines(); i++) {
+                if (i == 1) {
+                    min = matrix[i][column];
+                    line = i;
+                }
+
+                if (MatrixUtil.valueOf(matrix[i][column]) < 0 && MatrixUtil.valueOf(min) > MatrixUtil.valueOf(matrix[i][column])) {
                     min = matrix[i][column];
                     line = i;
                 }
             }
 
-            Tuple<Integer, Integer> tuple = matrixService.getIndexes(line, column, matrix);
+            Tuple<Integer, Integer> tuple = matrixService.getIndexes(application, line, column, matrix);
 
-            matrixService.calculateMatrix(min, matrix, line, column);
+            matrixService.calculateMatrix(application, min, matrix, line, column);
 
-            Integer columnToChange = tuple.getRight();
+            Integer columnToChange = tuple.getLeft();
 
             if (firstColumn.equals(columnToChange)) {
-                return equilibriumService.createEquilibrium(matrix);
+                return equilibriumService.createEquilibrium(matrix, application);
             } else {
                 column = columnToChange;
             }
