@@ -1,9 +1,7 @@
 package com.github.algorithm.application;
 
+import com.github.model.Application;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Copyright & Author
@@ -13,7 +11,24 @@ import java.util.List;
 public class DefaultApplicationService implements ApplicationService {
 
     @Override
-    public List<DiseaseEnum> getDiseaseList() {
-        return Arrays.asList(DiseaseEnum.values());
+    public void getStrategyList(Application application) {
+        if (application.getDisease() != null) {
+            switch (application.getDisease()) {
+                case GRYPA:
+                    application.setFirstStrategy("Leżenie w łóżku");
+                    application.setSecondStrategy("Witamina C i rutyna");
+                    application.setThirdStrategy("Amantadyna");
+                    break;
+                case OSPA:
+                    application.setFirstStrategy("Leżenie w łóżku");
+                    application.setSecondStrategy("Salicylany");
+                    application.setThirdStrategy("Pyramidon");
+                    break;
+                case ROZYCZKA:
+                    application.setFirstStrategy("Maści naskórne");
+                    application.setSecondStrategy("Spożywać dużo wody");
+                    application.setThirdStrategy("Tableki na gorączkę i środki nasercowe");
+            }
+        }
     }
 }

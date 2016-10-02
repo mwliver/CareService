@@ -1,6 +1,6 @@
 package com.github.algorithm.application;
 
-import java.util.List;
+import com.github.model.Application;
 
 /**
  * Copyright & Author
@@ -8,5 +8,8 @@ import java.util.List;
  */
 public interface ApplicationService {
 
-    List<DiseaseEnum> getDiseaseList();
+    /**
+     * Ustawia w application dostępne strategie w zależności od wybranej choroby
+     */
+    void getStrategyList(Application application);
 }

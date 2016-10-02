@@ -23,6 +23,21 @@ public class DefaultMatrixService implements MatrixService {
         return new String[0][0];
     }
 
+    /**
+     * Mapuje dane wprowadzone przez użytkownika na macierze wypłat
+     */
+    @Override
+    public String[][] generateMatrix(String[][] firstMatrix, String[][] secondMatrix) {
+        if (secondMatrix == null) {
+            return firstMatrix;
+        }
+        return new String[][] {
+                {String.valueOf(MatrixUtil.valueOf(firstMatrix[0][0]) + MatrixUtil.valueOf(secondMatrix[0][0]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[0][1]) + MatrixUtil.valueOf(secondMatrix[0][1]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[0][2]) + MatrixUtil.valueOf(secondMatrix[0][2]) / 2)},
+                {String.valueOf(MatrixUtil.valueOf(firstMatrix[1][0]) + MatrixUtil.valueOf(secondMatrix[1][0]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[1][1]) + MatrixUtil.valueOf(secondMatrix[1][1]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[1][2]) + MatrixUtil.valueOf(secondMatrix[1][2]) / 2)},
+                {String.valueOf(MatrixUtil.valueOf(firstMatrix[2][0]) + MatrixUtil.valueOf(secondMatrix[2][0]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[2][1]) + MatrixUtil.valueOf(secondMatrix[2][1]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[2][2]) + MatrixUtil.valueOf(secondMatrix[2][2]) / 2)},
+        };
+    }
+
     private String[][] generateDefaultMatrix(DiseaseEnum disease) {
         switch (disease) {
             case GRYPA:

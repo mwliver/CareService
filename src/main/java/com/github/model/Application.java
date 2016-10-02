@@ -21,6 +21,14 @@ public class Application implements Serializable {
     @Enumerated(EnumType.STRING)
     private DiseaseEnum disease;                    // rodzaj choroby
 
+    private String[][] firstMatrix;                 // macierz dla pierwszego gracza
+    private String[][] secondMatrix;                // macierz dla drugiego gracza
+    private String[][] thirdMatrix;                 // macierz dla trzeciego gracza
+
+    private String firstStrategy;                   // nazwa pierwszej strategii
+    private String secondStrategy;                  // nazwa drugiej strategii
+    private String thirdStrategy;                   // nazwa trzeiej strategii
+
     @Column(name = "lines_number")
     private Integer lines;                          // ilość wierszy
 
@@ -76,5 +84,53 @@ public class Application implements Serializable {
 
     public void setEquilibrium(Equilibrium equilibrium) {
         this.equilibrium = equilibrium;
+    }
+
+    public String getFirstStrategy() {
+        return firstStrategy;
+    }
+
+    public void setFirstStrategy(String firstStrategy) {
+        this.firstStrategy = firstStrategy;
+    }
+
+    public String getSecondStrategy() {
+        return secondStrategy;
+    }
+
+    public void setSecondStrategy(String secondStrategy) {
+        this.secondStrategy = secondStrategy;
+    }
+
+    public String getThirdStrategy() {
+        return thirdStrategy;
+    }
+
+    public void setThirdStrategy(String thirdStrategy) {
+        this.thirdStrategy = thirdStrategy;
+    }
+
+    public String[][] getFirstMatrix() {
+        return firstMatrix;
+    }
+
+    public void setFirstMatrix(String[][] firstMatrix) {
+        this.firstMatrix = firstMatrix;
+    }
+
+    public String[][] getSecondMatrix() {
+        return secondMatrix;
+    }
+
+    public void setSecondMatrix(String[][] secondMatrix) {
+        this.secondMatrix = secondMatrix;
+    }
+
+    public String[][] getThirdMatrix() {
+        return thirdMatrix;
+    }
+
+    public void setThirdMatrix(String[][] thirdMatrix) {
+        this.thirdMatrix = thirdMatrix;
     }
 }
