@@ -69,7 +69,7 @@ public class MainForm extends JFrame {
                 }
                 matrixPanel.setContentPane(matrixPanel.getContentPane());
                 matrixPanel.pack();
-                matrixPanel.setSize(700, 500);
+                matrixPanel.setSize(700, 700);
                 matrixPanel.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - matrixPanel.getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - matrixPanel.getSize().height) / 2);
                 matrixPanel.setVisible(true);
                 matrixPanel.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

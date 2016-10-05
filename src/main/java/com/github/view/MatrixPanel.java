@@ -2,7 +2,6 @@ package com.github.view;
 
 import com.github.algorithm.application.AlgorithmType;
 import com.github.algorithm.lemke_howson.LemkeHowson;
-import com.github.algorithm.lemke_howson.MatrixService;
 import com.github.dao.ApplicationRepository;
 import com.github.dao.EquilibriumRepository;
 import com.github.model.Application;
@@ -35,9 +34,6 @@ public class MatrixPanel extends JFrame {
     LemkeHowson lemkeHowson;
 
     @Autowired
-    MatrixService matrixService;
-
-    @Autowired
     ApplicationRepository applicationRepository;
 
     @Autowired
@@ -57,6 +53,7 @@ public class MatrixPanel extends JFrame {
     private JTextField algorithm;
     private JLabel info;
     private JTextArea matrixs;
+    private JTextArea wynik;
 
     private Application application;
 
@@ -108,10 +105,10 @@ public class MatrixPanel extends JFrame {
 
                     // Wyświetl macierze w informacjach
                     StringBuilder sb = new StringBuilder();
-                    sb.append("Macierz pierwszego gracza:")
-                            .append("\n").append(MatrixPanel.this.application.getFirstMatrix()[0][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[0][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[0][2]).append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[1][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[1][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[1][2]).append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[2][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[2][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[2][2]).append("\n");
+                    sb.append("Zysk pierwszego gracza:").append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][0]).append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][1]).append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][2]);
                     matrixs.setText(sb.toString());
                 }
                 if (MatrixPanel.this.application.getNumberOfPlayers() == 2) {
@@ -133,10 +130,11 @@ public class MatrixPanel extends JFrame {
 
                     // Wyświetl macierze w informacjach
                     StringBuilder sb = new StringBuilder();
-                    sb.append("Macierz pierwszego gracza:").append("\t").append("Macierz drugiego gracza:").append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[0][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[0][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[0][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][0]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[0][1]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[0][2]).append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[1][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[1][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[1][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[1][0]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[1][1]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[1][2]).append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[2][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[2][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[2][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[2][0]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[2][1]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[2][2]);
+                    sb.append("Zysk pierwszego gracza:").append("\t").append("Zysk drugiego gracza:").append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][0]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][0]).append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][1]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][1]).append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][2]);
+
                     matrixs.setText(sb.toString());
 
                     // pokaż info że trzeba obliczyć
@@ -158,10 +156,11 @@ public class MatrixPanel extends JFrame {
 
                     // Wyświetl macierze w informacjach
                     StringBuilder sb = new StringBuilder();
-                    sb.append("Macierz pierwszego gracza:").append("\t").append("Macierz drugiego gracza:").append("\t").append("Macierz trzeciego gracza:").append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[0][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[0][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[0][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][0]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[0][1]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[0][2]).append("\t\t").append(MatrixPanel.this.application.getThirdMatrix()[0][0]).append(" ").append(MatrixPanel.this.application.getThirdMatrix()[0][1]).append(" ").append(MatrixPanel.this.application.getThirdMatrix()[0][2]).append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[1][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[1][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[1][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[1][0]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[1][1]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[1][2]).append("\t\t").append(MatrixPanel.this.application.getThirdMatrix()[1][0]).append(" ").append(MatrixPanel.this.application.getThirdMatrix()[1][1]).append(" ").append(MatrixPanel.this.application.getThirdMatrix()[1][2]).append("\n")
-                            .append(MatrixPanel.this.application.getFirstMatrix()[2][0]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[2][1]).append(" ").append(MatrixPanel.this.application.getFirstMatrix()[2][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[2][0]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[2][1]).append(" ").append(MatrixPanel.this.application.getSecondMatrix()[2][2]).append("\t\t").append(MatrixPanel.this.application.getThirdMatrix()[2][0]).append(" ").append(MatrixPanel.this.application.getThirdMatrix()[2][1]).append(" ").append(MatrixPanel.this.application.getThirdMatrix()[2][2]);
+                    sb.append("Zysk pierwszego gracza:").append("\t").append("Zysk drugiego gracza:").append("\t").append("Zysk trzeciego gracza:").append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][0]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][0]).append("\t\t").append(MatrixPanel.this.application.getThirdMatrix()[0][0]).append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][1]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][1]).append("\t\t").append(MatrixPanel.this.application.getThirdMatrix()[0][1]).append("\n")
+                            .append(MatrixPanel.this.application.getFirstMatrix()[0][2]).append("\t\t").append(MatrixPanel.this.application.getSecondMatrix()[0][2]).append("\t\t").append(MatrixPanel.this.application.getThirdMatrix()[0][2]);
+
                     matrixs.setText(sb.toString());
 
                     // pokaż info że trzeba obliczyć
@@ -185,28 +184,36 @@ public class MatrixPanel extends JFrame {
 
                 if (MatrixPanel.this.application.getNumberOfPlayers() == 2) {
 
-                    MatrixPanel.this.application.setLines(6);
-                    MatrixPanel.this.application.setColumns(7);
+                    MatrixPanel.this.application.setLines(7);
+                    MatrixPanel.this.application.setColumns(8);
 
-//                    MatrixPanel.this.application.setDisease(DiseaseEnum.GRYPA);
-//                    String[][] firstMatrix = matrixService.getDefaultMatrix(MatrixPanel.this.application);
-//                    MatrixPanel.this.application.setDisease(DiseaseEnum.OSPA);
-//                    String[][] secondMatrix = matrixService.getDefaultMatrix(MatrixPanel.this.application);
-
-//                    Equilibrium equilibrium = lemkeHowson.lemkeHowson(MatrixPanel.this.application, firstMatrix, secondMatrix);
                     Equilibrium equilibrium = lemkeHowson.lemkeHowson(MatrixPanel.this.application, MatrixPanel.this.application.getFirstMatrix(), MatrixPanel.this.application.getSecondMatrix());
+
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("Gracz 1: ").append("\n")
+                            .append(application.getFirstStrategy()).append("\t\t").append(equilibrium.getFirstPlayer().get(0)).append("\n")
+                            .append(application.getSecondStrategy()).append("\t\t").append(equilibrium.getFirstPlayer().get(1)).append("\n")
+                            .append(application.getThirdStrategy()).append("\t\t").append(equilibrium.getFirstPlayer().get(2)).append("\n");
+
                     for (String value : equilibrium.getFirstPlayer()) {
                         System.out.println("Player 1 Equilibrum " + value + "\n");
                     }
+                    sb.append("\n").append("Gracz 2: ").append("\n")
+                            .append(application.getFirstStrategy()).append("\t\t").append(equilibrium.getSecondPlayer().get(0)).append("\n")
+                            .append(application.getSecondStrategy()).append("\t\t").append(equilibrium.getSecondPlayer().get(1)).append("\n")
+                            .append(application.getThirdStrategy()).append("\t\t").append(equilibrium.getSecondPlayer().get(2));
 
                     for (String value : equilibrium.getSecondPlayer()) {
                         System.out.println(" Player 2 Equilibrum " + value + "\n");
                     }
 
+                    wynik.setText(sb.toString());
+
                     equilibriumRepository.save(MatrixPanel.this.application.getEquilibrium());
 
-//                    MatrixPanel.this.application.setFirstMatrix(new String[][]{{"5.00", "5.00", "10.00"}, {"1.0", "8.00", "3.00"}});
                     applicationRepository.save(MatrixPanel.this.application);
+
+                    repaint();
                 }
             }
         });
@@ -253,7 +260,7 @@ public class MatrixPanel extends JFrame {
      */
     private void $$$setupUI$$$() {
         panel1 = new JPanel();
-        panel1.setLayout(new GridLayoutManager(5, 3, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.setLayout(new GridLayoutManager(4, 3, new Insets(0, 0, 0, 0), -1, -1));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(5, 5, new Insets(0, 0, 0, 0), -1, -1));
         panel1.add(panel2, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -309,6 +316,11 @@ public class MatrixPanel extends JFrame {
         panel3.add(playersCount, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         algorithm = new JTextField();
         panel3.add(algorithm, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        final JPanel panel6 = new JPanel();
+        panel6.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.add(panel6, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        wynik = new JTextArea();
+        panel6.add(wynik, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel2.add(spacer1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
@@ -316,16 +328,14 @@ public class MatrixPanel extends JFrame {
         final Spacer spacer3 = new Spacer();
         panel1.add(spacer3, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
-        panel1.add(spacer4, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        panel1.add(spacer4, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
+        final JPanel panel7 = new JPanel();
+        panel7.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(panel7, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
-        panel1.add(spacer5, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(panel6, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        panel1.add(spacer5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer6 = new Spacer();
-        panel1.add(spacer6, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
-        final Spacer spacer7 = new Spacer();
-        panel1.add(spacer7, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
+        panel1.add(spacer6, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
     }
 
     /**

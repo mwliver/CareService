@@ -23,29 +23,14 @@ public class DefaultMatrixService implements MatrixService {
         return new String[0][0];
     }
 
-    /**
-     * Mapuje dane wprowadzone przez użytkownika na macierze wypłat
-     */
-    @Override
-    public String[][] generateMatrix(String[][] firstMatrix, String[][] secondMatrix) {
-        if (secondMatrix == null) {
-            return firstMatrix;
-        }
-        return new String[][] {
-                {String.valueOf(MatrixUtil.valueOf(firstMatrix[0][0]) + MatrixUtil.valueOf(secondMatrix[0][0]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[0][1]) + MatrixUtil.valueOf(secondMatrix[0][1]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[0][2]) + MatrixUtil.valueOf(secondMatrix[0][2]) / 2)},
-                {String.valueOf(MatrixUtil.valueOf(firstMatrix[1][0]) + MatrixUtil.valueOf(secondMatrix[1][0]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[1][1]) + MatrixUtil.valueOf(secondMatrix[1][1]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[1][2]) + MatrixUtil.valueOf(secondMatrix[1][2]) / 2)},
-                {String.valueOf(MatrixUtil.valueOf(firstMatrix[2][0]) + MatrixUtil.valueOf(secondMatrix[2][0]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[2][1]) + MatrixUtil.valueOf(secondMatrix[2][1]) / 2), String.valueOf(MatrixUtil.valueOf(firstMatrix[2][2]) + MatrixUtil.valueOf(secondMatrix[2][2]) / 2)},
-        };
-    }
-
     private String[][] generateDefaultMatrix(DiseaseEnum disease) {
         switch (disease) {
             case GRYPA:
-                return new String[][] {{"5.00", "5.00", "10.00"}, {"1.0", "8.00", "3.00"}};
+                return new String[][] {{"5.00", "5.00", "10.00"}, {"1.0", "8.00", "3.00"}, {"3.0", "7.0", "2.0"}};
             case OSPA:
-                return new String[][] {{"2.00", "8.00", "2.00"}, {"3.00", "2.00", "7.00"}};
+                return new String[][] {{"2.00", "8.00", "2.00"}, {"3.00", "2.00", "7.00"}, {"3.0", "4.0", "2.0"}};
             case ROZYCZKA:
-                return new String[][] {{"0.00", "1.00", "2.83"}, {"0.11", "0.23", "0.11"}};
+                return new String[][] {{"0.00", "1.00", "2.83"}, {"0.11", "0.23", "0.11"}, {"2.0", "2.0", "1.0"}};
         }
         return new String[0][0];
     }
@@ -57,7 +42,7 @@ public class DefaultMatrixService implements MatrixService {
     public String[][] mergeMatrix(Application application, String[][] firstMatrix, String[][] secondMatrix) {
         int lines = application.getLines();
         int columns = application.getColumns();
-        String[][] matrix = new String[lines][columns];       // 6 wierszy 7 kolumn
+        String[][] matrix = new String[lines][columns];       // 7 wierszy 8 kolumn
 
         // inicjalizuj zerami
         for (int i = 0; i < lines; i++) {
@@ -67,18 +52,18 @@ public class DefaultMatrixService implements MatrixService {
         }
 
         // wiersze
-        for (int i = 1, k = 0; i < 3 && k < 2; i++, k++) {
+        for (int i = 1, k = 0; i < 4 && k < 3; i++, k++) {
             // kolumny
-            for (int j = 0, t = 2; j < 3; j++, t++) {
+            for (int j = 0, t = 3; j < 3; j++, t++) {
                 // przesuń wiersze w prawo w nowej macierzy
                 matrix[i][t] = "-" + firstMatrix[k][j];
             }
         }
 
         // wiersze
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             // kolumny
-            for (int j = 0, t = 3; j < 3; j++, t++) {
+            for (int j = 0, t = 4; j < 3; j++, t++) {
                 // odwóć i przesuń na dół
                 matrix[t][i] = "-" + secondMatrix[i][j];
             }
@@ -128,8 +113,8 @@ public class DefaultMatrixService implements MatrixService {
             }
         }
 
-        if (column < 2) {
-            for (int j = 0; j < 2; j++) {
+        if (column < 3) {
+            for (int j = 0; j < 3; j++) {
                 if (j != column) {      // ten sam wiersz co pivot za wyjątkiem pivotu
                     // q / p
                     matrix[line][j] = String.valueOf(MatrixUtil.valueOf("-" + oldMatrix[line][j]) / MatrixUtil.valueOf(pivot));
@@ -139,22 +124,19 @@ public class DefaultMatrixService implements MatrixService {
             // zmien 1 z prawej
             matrix[line][application.getColumns() - 2] = String.valueOf(MatrixUtil.valueOf("-" + oldMatrix[line][application.getColumns() - 2]) / MatrixUtil.valueOf(pivot));
         } else {
-            for (int j = 2; j < application.getColumns() - 1; j++) {
+            for (int j = 3; j < application.getColumns() - 1; j++) {
                 if (j != column) {
                     // q / p
                     matrix[line][j] = String.valueOf(MatrixUtil.valueOf("-" + oldMatrix[line][j]) / MatrixUtil.valueOf(pivot));
                     validate(matrix, oldMatrix, line, j);
                 }
             }
-            // nie trzeba bo jesteśmy przy prawej stronie więc pętla to obsłuży
-//            // zmien 1 z prawej
-//            matrix[line][application.getColumns() - 2] = String.valueOf(MatrixUtil.valueOf("-" + oldMatrix[line][application.getColumns() - 2]) / MatrixUtil.valueOf(pivot));
         }
 
         // kolumny i wiersze poza współrzędnymi pivota
-        if (column < 2 || line > 3) {
+        if (column < 3 || line > 3) {
             for (int i = 3; i < application.getLines(); i++) {
-                for (int j = 0; j < 2; j++) {
+                for (int j = 0; j < 3; j++) {
                     if (i != line && j != column) {
                         // s - q * r / p
                         Double q = MatrixUtil.valueOf(getQ(i, j, line, column, oldMatrix));
@@ -166,7 +148,7 @@ public class DefaultMatrixService implements MatrixService {
                 }
             }
             // zmien 1 z prawej
-            for (int i = 3; i < application.getLines(); i++) {
+            for (int i = 4; i < application.getLines(); i++) {
                 int j = application.getColumns() - 2;
                 if (i != line && j != column) {
                     // s - q * r / p
@@ -178,8 +160,8 @@ public class DefaultMatrixService implements MatrixService {
                 }
             }
         } else {
-            for (int i = 1; i < 3; i++) {
-                for (int j = 2; j < application.getColumns() - 1; j++) {
+            for (int i = 1; i < 4; i++) {
+                for (int j = 3; j < application.getColumns() - 1; j++) {
                     if (i != line && j != column) {
                         // s - q * r / p
                         Double q = MatrixUtil.valueOf(getQ(i, j, line, column, oldMatrix));
@@ -191,25 +173,10 @@ public class DefaultMatrixService implements MatrixService {
                     }
                 }
             }
-            // nie trzeba bo jesteśmy przy prawej stronie więc pętla to obsłuży
-//            // zmien 1 z prawej
-//            for (int i = 1; i < 3; i++) {
-//                int j = application.getColumns() - 2;
-//                if (i != line && j != column) {
-//                    // s - q * r / p
-//                    Double q = MatrixUtil.valueOf(getQ(i, j, line, column, oldMatrix));
-//                    Double r = MatrixUtil.valueOf(getR(i, j, line, column, oldMatrix));
-//                    Double val = q * r;
-//                    matrix[i][j] = String.valueOf(MatrixUtil.valueOf(oldMatrix[i][j]) - (val / MatrixUtil.valueOf(pivot)));
-//                    validate(matrix, oldMatrix, i, j);
-//                }
-//            }
         }
 
         matrix[0][column] = oldMatrix[line][application.getColumns() - 1];
         matrix[line][application.getColumns() - 1] = oldMatrix[0][column];
-
-        System.out.println("CalculateMatrix finish");
     }
 
     private void validate(String[][] matrix, String[][] oldMatrix, int i, Integer column) {

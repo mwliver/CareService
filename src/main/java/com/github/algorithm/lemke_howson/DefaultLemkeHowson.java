@@ -29,20 +29,8 @@ public class DefaultLemkeHowson implements LemkeHowson {
 
         while (true) {
 
-            Integer nextColumn = column + 1;
-
             String min = null;
             Integer line = null;
-
-//            for (int i = 1; i < application.getLines(); i++) {
-//                min = matrix[i][column];
-//                line = i;
-//
-//                if (MatrixUtil.valueOf(matrix[i][column]) < 0 && MatrixUtil.valueOf(matrix[i][nextColumn]) / MatrixUtil.valueOf("-" + matrix[i][column]) < MatrixUtil.valueOf(min)) {
-//                    min = matrix[i][column];
-//                    line = i;
-//                }
-//            }
 
             for (int i = 1; i < application.getLines(); i++) {
                 if (i == 1) {

@@ -35,22 +35,24 @@ public class DefaultEquilibriumService implements EquilibriumService {
         ArrayList<String> secondPlayer = new ArrayList<>();
         for (Map.Entry<String, String> stringStringEntry : map.entrySet()) {
             if (stringStringEntry.getKey().equals("z0") ||
-                    stringStringEntry.getKey().equals("z1")) {
+                    stringStringEntry.getKey().equals("z1") ||
+                    stringStringEntry.getKey().equals("z2")) {
                 firstPlayer.add(stringStringEntry.getValue());
             }
-            if (stringStringEntry.getKey().equals("z2") ||
-                    stringStringEntry.getKey().equals("z3") ||
-                    stringStringEntry.getKey().equals("z4")) {
+            if (stringStringEntry.getKey().equals("z3") ||
+                    stringStringEntry.getKey().equals("z4") ||
+                    stringStringEntry.getKey().equals("z5")) {
                 secondPlayer.add(stringStringEntry.getValue());
             }
 
             if (stringStringEntry.getKey().equals("r0") ||
-                    stringStringEntry.getKey().equals("r1")) {
+                    stringStringEntry.getKey().equals("r1") ||
+                    stringStringEntry.getKey().equals("r2")) {
                 firstPlayer.add("0.00");
             }
-            if (stringStringEntry.getKey().equals("r2") ||
-                    stringStringEntry.getKey().equals("r3") ||
-                    stringStringEntry.getKey().equals("r4")) {
+            if (stringStringEntry.getKey().equals("r3") ||
+                    stringStringEntry.getKey().equals("r4") ||
+                    stringStringEntry.getKey().equals("r5")) {
                 secondPlayer.add("0.00");
             }
         }
