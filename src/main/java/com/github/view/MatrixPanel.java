@@ -2,10 +2,9 @@ package com.github.view;
 
 import com.github.algorithm.application.AlgorithmType;
 import com.github.algorithm.lemke_howson.LemkeHowson;
-import com.github.dao.ApplicationRepository;
-import com.github.dao.EquilibriumRepository;
 import com.github.model.Application;
 import com.github.model.Equilibrium;
+import com.github.util.Util;
 import com.intellij.uiDesigner.core.GridConstraints;
 import com.intellij.uiDesigner.core.GridLayoutManager;
 import com.intellij.uiDesigner.core.Spacer;
@@ -33,12 +32,6 @@ public class MatrixPanel extends JFrame {
     @Autowired
     LemkeHowson lemkeHowson;
 
-    @Autowired
-    ApplicationRepository applicationRepository;
-
-    @Autowired
-    EquilibriumRepository equilibriumRepository;
-
     private JPanel panel1;
     private JSpinner secondValue;
     private JSpinner thirdValue;
@@ -53,7 +46,6 @@ public class MatrixPanel extends JFrame {
     private JTextField algorithm;
     private JLabel info;
     private JTextArea matrixs;
-    private JTextArea wynik;
 
     private Application application;
 
@@ -184,35 +176,44 @@ public class MatrixPanel extends JFrame {
 
                 if (MatrixPanel.this.application.getNumberOfPlayers() == 2) {
 
+                    long startTime = System.currentTimeMillis();
+
                     MatrixPanel.this.application.setLines(7);
                     MatrixPanel.this.application.setColumns(8);
 
                     Equilibrium equilibrium = lemkeHowson.lemkeHowson(MatrixPanel.this.application, MatrixPanel.this.application.getFirstMatrix(), MatrixPanel.this.application.getSecondMatrix());
 
-                    StringBuilder sb = new StringBuilder();
-                    sb.append("Gracz 1: ").append("\n")
-                            .append(application.getFirstStrategy()).append("\t\t").append(equilibrium.getFirstPlayer().get(0)).append("\n")
-                            .append(application.getSecondStrategy()).append("\t\t").append(equilibrium.getFirstPlayer().get(1)).append("\n")
-                            .append(application.getThirdStrategy()).append("\t\t").append(equilibrium.getFirstPlayer().get(2)).append("\n");
-
                     for (String value : equilibrium.getFirstPlayer()) {
                         System.out.println("Player 1 Equilibrum " + value + "\n");
                     }
-                    sb.append("\n").append("Gracz 2: ").append("\n")
-                            .append(application.getFirstStrategy()).append("\t\t").append(equilibrium.getSecondPlayer().get(0)).append("\n")
-                            .append(application.getSecondStrategy()).append("\t\t").append(equilibrium.getSecondPlayer().get(1)).append("\n")
-                            .append(application.getThirdStrategy()).append("\t\t").append(equilibrium.getSecondPlayer().get(2));
 
                     for (String value : equilibrium.getSecondPlayer()) {
                         System.out.println(" Player 2 Equilibrum " + value + "\n");
                     }
 
-                    wynik.setText(sb.toString());
+                    application.setResultLabel("Czas działania");
 
-                    equilibriumRepository.save(MatrixPanel.this.application.getEquilibrium());
+                    long finishTime = System.currentTimeMillis();
 
-                    applicationRepository.save(MatrixPanel.this.application);
+                    String result = Util.format(finishTime - startTime);
+                    System.out.println(result);
+                    application.setResult(result);
 
+                    ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml", "beans-datasource.xml");
+                    ResultPanel resultPanel = (ResultPanel) context.getBean("resultPanel", application);
+                    try {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                    } catch (IllegalAccessException | ClassNotFoundException | UnsupportedLookAndFeelException | InstantiationException e1) {
+                        e1.printStackTrace();
+                    }
+                    resultPanel.setContentPane(resultPanel.getContentPane());
+                    resultPanel.pack();
+                    resultPanel.setSize(700, 700);
+                    resultPanel.setLocation((Toolkit.getDefaultToolkit().getScreenSize().width - resultPanel.getSize().width) / 2, (Toolkit.getDefaultToolkit().getScreenSize().height - resultPanel.getSize().height) / 2);
+                    resultPanel.setVisible(true);
+                    resultPanel.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+                    MatrixPanel.this.dispose();
                     repaint();
                 }
             }
@@ -287,7 +288,7 @@ public class MatrixPanel extends JFrame {
         powrótButton.setText("Powrót");
         panel2.add(powrótButton, new GridConstraints(4, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel3 = new JPanel();
-        panel3.setLayout(new GridLayoutManager(4, 2, new Insets(0, 0, 0, 0), -1, -1));
+        panel3.setLayout(new GridLayoutManager(3, 2, new Insets(0, 0, 0, 0), -1, -1));
         panel2.add(panel3, new GridConstraints(2, 1, 1, 3, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final JPanel panel4 = new JPanel();
         panel4.setLayout(new GridLayoutManager(3, 1, new Insets(0, 0, 0, 0), -1, -1));
@@ -316,11 +317,6 @@ public class MatrixPanel extends JFrame {
         panel3.add(playersCount, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
         algorithm = new JTextField();
         panel3.add(algorithm, new GridConstraints(2, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        final JPanel panel6 = new JPanel();
-        panel6.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel3.add(panel6, new GridConstraints(3, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
-        wynik = new JTextArea();
-        panel6.add(wynik, new GridConstraints(0, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_WANT_GROW, null, new Dimension(150, 50), null, 0, false));
         final Spacer spacer1 = new Spacer();
         panel2.add(spacer1, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
         final Spacer spacer2 = new Spacer();
@@ -329,9 +325,9 @@ public class MatrixPanel extends JFrame {
         panel1.add(spacer3, new GridConstraints(2, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer4 = new Spacer();
         panel1.add(spacer4, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, 1, null, null, null, 0, false));
-        final JPanel panel7 = new JPanel();
-        panel7.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
-        panel1.add(panel7, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
+        final JPanel panel6 = new JPanel();
+        panel6.setLayout(new GridLayoutManager(1, 1, new Insets(0, 0, 0, 0), -1, -1));
+        panel1.add(panel6, new GridConstraints(0, 1, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
         final Spacer spacer5 = new Spacer();
         panel1.add(spacer5, new GridConstraints(2, 0, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_VERTICAL, 1, GridConstraints.SIZEPOLICY_WANT_GROW, null, null, null, 0, false));
         final Spacer spacer6 = new Spacer();

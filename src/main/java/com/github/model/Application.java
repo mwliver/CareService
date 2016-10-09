@@ -38,6 +38,9 @@ public class Application implements Serializable {
     @OneToOne
     private Equilibrium equilibrium;                // równowaga
 
+    private String resultLabel;
+    private String result;
+
     public Long getId() {
         return id;
     }
@@ -132,5 +135,21 @@ public class Application implements Serializable {
 
     public void setThirdMatrix(String[][] thirdMatrix) {
         this.thirdMatrix = thirdMatrix;
+    }
+
+    public String getResultLabel() {
+        return resultLabel;
+    }
+
+    public void setResultLabel(String resultLabel) {
+        this.resultLabel = resultLabel;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }
