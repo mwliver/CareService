@@ -9,6 +9,6 @@ import com.github.model.Equilibrium;
  */
 public interface LemkeHowson {
 
-    Equilibrium lemkeHowson(Application application, String[][] firstMatrix, String[][] secondMatrix);
+    Equilibrium lemkeHowson(Application application);
 
 }

@@ -20,9 +20,9 @@ public class DefaultLemkeHowson implements LemkeHowson {
     EquilibriumService equilibriumService;
 
     @Override
-    public Equilibrium lemkeHowson(Application application, String[][] firstMatrix, String[][] secondMatrix) {
+    public Equilibrium lemkeHowson(Application application) {
 
-        String[][] matrix = matrixService.mergeMatrix(application, firstMatrix, secondMatrix);
+        String[][] matrix = matrixService.mergeMatrix(application, application.getFirstMatrix(), application.getSecondMatrix());
 
         Integer firstColumn = 0;
         Integer column = firstColumn;

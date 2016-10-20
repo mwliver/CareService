@@ -1,6 +1,7 @@
 package com.github.view;
 
 import com.github.algorithm.application.AlgorithmType;
+import com.github.algorithm.approximate.ApproximateService;
 import com.github.algorithm.lemke_howson.LemkeHowson;
 import com.github.model.Application;
 import com.github.model.Equilibrium;
@@ -31,6 +32,9 @@ public class MatrixPanel extends JFrame {
 
     @Autowired
     LemkeHowson lemkeHowson;
+
+    @Autowired
+    ApproximateService approximateService;
 
     private JPanel panel1;
     private JSpinner secondValue;
@@ -175,18 +179,16 @@ public class MatrixPanel extends JFrame {
             public void mouseClicked(MouseEvent e) {
 
                 if (MatrixPanel.this.application.getNumberOfPlayers() == 2) {
-
                     long startTime = System.currentTimeMillis();
 
                     MatrixPanel.this.application.setLines(7);
                     MatrixPanel.this.application.setColumns(8);
 
-                    Equilibrium equilibrium = lemkeHowson.lemkeHowson(MatrixPanel.this.application, MatrixPanel.this.application.getFirstMatrix(), MatrixPanel.this.application.getSecondMatrix());
+                    Equilibrium equilibrium = lemkeHowson.lemkeHowson(MatrixPanel.this.application);
 
                     for (String value : equilibrium.getFirstPlayer()) {
                         System.out.println("Player 1 Equilibrum " + value + "\n");
                     }
-
                     for (String value : equilibrium.getSecondPlayer()) {
                         System.out.println(" Player 2 Equilibrum " + value + "\n");
                     }
@@ -198,7 +200,16 @@ public class MatrixPanel extends JFrame {
                     String result = Util.format(finishTime - startTime);
                     System.out.println(result);
                     application.setResult(result);
+                }
+                if (MatrixPanel.this.application.getNumberOfPlayers() == 3) {
+                    String result = approximateService.approximate(MatrixPanel.this.application);
 
+                    System.out.println(result);
+                    application.setResult(result);
+                    application.setResultLabel("Epsilon");
+                }
+
+                if (MatrixPanel.this.application.getNumberOfPlayers() == 2 || MatrixPanel.this.application.getNumberOfPlayers() == 3) {
                     ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml", "beans-datasource.xml");
                     ResultPanel resultPanel = (ResultPanel) context.getBean("resultPanel", application);
                     try {

@@ -38,8 +38,12 @@ public class Application implements Serializable {
     @OneToOne
     private Equilibrium equilibrium;                // równowaga
 
+    private String probabilityFirst;                // prawdopodobieństwo pierwsze
+    private String probabilitySecond;               // prawdopodobieństwo drugie
+    private String probabilityThird;                // prawdopodobieństwo trzecie
+
     private String resultLabel;
-    private String result;
+    private String result;                          // epsilon
 
     public Long getId() {
         return id;
@@ -151,5 +155,29 @@ public class Application implements Serializable {
 
     public void setResult(String result) {
         this.result = result;
+    }
+
+    public String getProbabilityFirst() {
+        return probabilityFirst;
+    }
+
+    public void setProbabilityFirst(String probabilityFirst) {
+        this.probabilityFirst = probabilityFirst;
+    }
+
+    public String getProbabilitySecond() {
+        return probabilitySecond;
+    }
+
+    public void setProbabilitySecond(String probabilitySecond) {
+        this.probabilitySecond = probabilitySecond;
+    }
+
+    public String getProbabilityThird() {
+        return probabilityThird;
+    }
+
+    public void setProbabilityThird(String probabilityThird) {
+        this.probabilityThird = probabilityThird;
     }
 }
